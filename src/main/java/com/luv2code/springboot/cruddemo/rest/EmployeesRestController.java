@@ -30,10 +30,10 @@ public class EmployeesRestController
         }
         return theEmployee;
     }
-    @GetMapping ("/employees/email/{emailI}")
-    public List<Employee> getEmployee(String emailI)
+    @GetMapping ("/employees/email/{emailId}")
+    public List<Employee> getEmployee(String emailId)
     {
-        List<Employee>theEmployee =  employeeService.findByEmail(emailI);
+        List<Employee>theEmployee =  employeeService.findByEmail(emailId);
         if(theEmployee.size()==0)
         {
             throw new RuntimeException("Employee id not found");
