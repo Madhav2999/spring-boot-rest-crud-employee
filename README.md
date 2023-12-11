@@ -9,6 +9,8 @@ It fetches the details of a single employee on the basis of employeeId by using 
 ![image](https://github.com/Madhav2999/spring-boot-rest-crud-employee/assets/73338753/32352bcd-f3da-4a60-8d6b-126a9b2cdda8)
 3- List<Employee> getEmployee(String emailId)
 It fetches the details of a single employee on the basis of emailId by using GetMapping (@GetMapping ("/employees/id/{emailId}"))
+![image](https://github.com/Madhav2999/spring-boot-rest-crud-employee/assets/73338753/1ae31b81-789a-4909-b38e-b6f6ce81f6e1)
+
 4-  Employee addEmployee(@RequestBody Employee theEmployee)
 It adds the employee to the database by using PostMapping(@PostMapping("/employees"))
 ![image](https://github.com/Madhav2999/spring-boot-rest-crud-employee/assets/73338753/bd3d8f68-a132-48df-a82c-b0d04a5ae1aa)
