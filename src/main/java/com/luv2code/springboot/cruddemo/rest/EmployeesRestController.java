@@ -2,13 +2,22 @@ package com.luv2code.springboot.cruddemo.rest;
 import com.luv2code.springboot.cruddemo.dao.EmployeeDAO;
 import com.luv2code.springboot.cruddemo.entity.Employee;
 import com.luv2code.springboot.cruddemo.service.EmployeeService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.repository.query.Param;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api")
 public class EmployeesRestController
 {
+    public EmployeesRestController()
+    {
+
+    }
+    @Autowired
     private EmployeeService employeeService;
     public EmployeesRestController(EmployeeService employeeService)
     {
@@ -23,22 +32,24 @@ public class EmployeesRestController
     public Employee getEmployee(@PathVariable int employeeId)
     {
 
-        Employee theEmployee = employeeService.findById(employeeId);
-        if(theEmployee==null)
+        Optional<Employee> theEmployee = employeeService.findById(employeeId);
+        if(theEmployee.isPresent())
         {
-            throw new RuntimeException("Employee id not found");
+            return theEmployee.get();
         }
-        return theEmployee;
+        throw new RuntimeException("not found");
+
     }
-    @GetMapping ("/employees/email/{emailId}")
-    public List<Employee> getEmployee(String emailId)
+    @RequestMapping(value = "/employees/email/{email}",method = RequestMethod.GET)
+    public Employee getEmployeeByEmail(@PathVariable String email)
     {
-        List<Employee>theEmployee =  employeeService.findByEmail(emailId);
-        if(theEmployee.size()==0)
+        Optional<Employee> e = employeeService.findByEmail(email);
+        //List<Employee>theEmployee =  employeeService.findByEmail(emailId);
+        if(e.isPresent())
         {
-            throw new RuntimeException("Employee id not found");
+            return e.get();
         }
-        return theEmployee;
+         throw new RuntimeException("not found");
     }
     @PostMapping("/employees")
     public Employee addEmployee(@RequestBody Employee theEmployee)
@@ -57,8 +68,8 @@ public class EmployeesRestController
     @DeleteMapping("/employees/{employeeId}")
     public String deleteEmployee(@PathVariable int employeeId)
     {
-        Employee tempEmployee = employeeService.findById(employeeId);
-        if(tempEmployee==null)
+        Optional<Employee> tempEmployee = employeeService.findById(employeeId);
+        if(tempEmployee.isEmpty())
         {
             throw new RuntimeException("Exception id not found - "+employeeId);
         }
